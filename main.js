@@ -1,33 +1,25 @@
-const rowDiv = document.querySelector("#colotInput")
-const addHexcolor = document.querySelector("#addNew")
-const btn = document.querySelector("#colorForm")
-btn.addEventListener("submit", (event) =>{
-    event.preventDefault()
-})
+/// FETCH API Den resim indirme
 
-let count = 1
-addHexcolor.addEventListener("click", () =>{
-    count += 1
-    rowDiv.append(newHegxColor(count))
-
-})
-
-function newHegxColor(item) {
-    const newContainerDiv = document.createElement("div")
-    newContainerDiv.classList.add("col-sm")
-
-newContainerDiv.innerHTML = `
-  <label for="color-${item}" class="form-label">Hegx color</label>
-<input 
- minlength="7" maxlength="7"
-type="text"
-class="form-control" 
-id="exampleInputEmail1-${item}
-name="color-${item}"
-"
- >
-`
-return newContainerDiv
-    
+function getPhotos(url) {
+    fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        displayPhotos(data);
+    })
+    .catch((error) => console.log(error));
 }
-rowDiv.append(newHegxColor(count))
+
+function displayPhotos(photos) {
+    const photosContainer = document.getElementById('photos');
+    photos.forEach(photo => {
+        const img = document.createElement('img');
+        img.src = photo.thumbnailUrl;
+        img.alt = photo.title;
+        photosContainer.appendChild(img);
+    });
+}
+
+getPhotos("https://jsonplaceholder.typicode.com/photos");
+
+
+
