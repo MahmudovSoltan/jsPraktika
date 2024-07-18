@@ -1,25 +1,25 @@
-/// FETCH API Den resim indirme
+const app = document.querySelector("#app");
+const createElementUl = document.createElement("ul");
+app.append(createElementUl);
 
-function getPhotos(url) {
-    fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-        displayPhotos(data);
-    })
-    .catch((error) => console.log(error));
-}
-
-function displayPhotos(photos) {
-    const photosContainer = document.getElementById('photos');
-    photos.forEach(photo => {
-        const img = document.createElement('img');
-        img.src = photo.thumbnailUrl;
-        img.alt = photo.title;
-        photosContainer.appendChild(img);
+fetch("https://jsonplaceholder.typicode.com/photos")
+.then((res) => res.json())
+.then((data) => {
+    data.forEach(element => {
+        const liElement = document.createElement("li");
+        
+        // Create img element
+        const imgElement = document.createElement("img");
+        imgElement.src = element.thumbnailUrl;
+        imgElement.alt = element.title;
+        
+        // Append img element to li
+        liElement.append(imgElement);
+        
+        // Append li element to ul
+        createElementUl.append(liElement);
     });
-}
-
-getPhotos("https://jsonplaceholder.typicode.com/photos");
-
+})
+.catch((error) => console.log(error));
 
 
